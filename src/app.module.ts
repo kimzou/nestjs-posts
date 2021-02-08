@@ -1,10 +1,20 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { GraphQLFederationModule } from '@nestjs/graphql';
+import { PostsResolver } from './posts/posts.resolver';
+import { PostsService } from './posts/posts.service';
+import { User } from './users/user.entity';
+import { UsersResolver } from './users/users.resolver';
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    GraphQLFederationModule.forRoot({
+      autoSchemaFile: 'schema.graphql',
+      buildSchemaOptions: {
+        numberScalarMode: 'integer',
+        orphanedTypes: [User],
+      },
+    }),
+  ],
+  providers: [PostsResolver, UsersResolver, PostsService],
 })
-export class AppModule {}
+export class AppModule { }
