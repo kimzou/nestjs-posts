@@ -7,6 +7,6 @@ import { Post } from '../posts/post.entity';
 export class User {
   @Field((type) => ID)
   @Directive('@external')
-  id: number;
+  id: string;
   posts?: Post[];
 }

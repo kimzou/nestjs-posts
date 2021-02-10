@@ -5,8 +5,8 @@ import { User } from '../users/user.entity';
 @Directive('@key(fields: "id")')
 export class Post {
   @Field((type) => ID)
-  id: number;
+  id: string;
   title: string;
-  authorId: number;
+  authorId: string;
   user?: User;
 }

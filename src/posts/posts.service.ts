@@ -1,26 +1,38 @@
 import { Injectable } from '@nestjs/common';
-import { User } from './../users/user.entity';
-import { Post } from './post.entity';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Post as PostModel, PostDocument } from './post.model';
 
 @Injectable()
 export class PostsService {
-  private readonly posts: Post[] = [
-    { id: 1, title: 'Is Mappa\'s good ?', authorId: 1 },
-    { id: 2, title: 'Can\'t wait for the final ?', authorId: 2}
-  ];
+  constructor(
+    @InjectModel(PostModel.name) private postModel: Model<PostDocument>,
+  ) {}
 
-  all(): Post[] {
-    return this.posts;
+  async all(): Promise<PostModel[]> {
+    const posts = await this.postModel.find();
+    console.log({posts})
+    return posts;
   }
 
-  findOne(id: number): Post {
-    return this.posts.filter(post => post.id === id)[0];
+  // async findOne(id: number): Promise<PostModel> {
+  //   const post = await this.postModel.findOne({...filters})
+  // }
+
+  async findById(id: string): Promise<PostModel> {
+    const post = await this.postModel.findById(id);
+    console.log({post})
+    return post;
   }
 
-  async forAuthor(user: User): Promise<Post[]> {
+  async forAuthor(id: string): Promise<PostModel[]> {
     // const author = await this.usersService.findById(userId);
-    console.log(user)
-    return user.posts;
-    // return this.posts;
+    console.log('post service for author', {id})
+    const posts = await this.postModel.find({ authorId: id })
+    console.log('post service for author', {posts})
+    // console.log('user post', user.posts)
+    // return user.posts;
+
+    return posts;
   }
 }
