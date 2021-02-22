@@ -14,7 +14,7 @@ export class PostsResolver {
   // }
 
   @Query((returns) => Post)
-  getPost(@Args('id') id: string): Promise<PostModel> {
+  getPost(@Args('id') id: string): Promise<PostModel|null> {
     return this.postsService.findById(id);
   }
 
@@ -26,6 +26,7 @@ export class PostsResolver {
   @ResolveField((of) => User)
   user(@Parent() post: Post): any {
     console.log('post resolver users root', {post})
-    return { __typename: 'User', id: post.authorId };
+    const { authorId } = post;
+    return { __typename: 'User', id: authorId };
   }
 }

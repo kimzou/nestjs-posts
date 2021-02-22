@@ -11,6 +11,7 @@ export class UsersResolver {
   @ResolveField((of) => [Post])
   public posts(@Parent() user: User): Promise<PostModel[]> {
     console.log('user resolver for author', {user})
-    return this.postsService.forAuthor(user.id); // string
+    const { id } = user;
+    return this.postsService.forAuthor(id);
   }
 }

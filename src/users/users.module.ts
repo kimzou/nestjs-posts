@@ -8,7 +8,6 @@ import { UsersResolver } from './users.resolver';
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Post.name, schema: PostSchema }]),
-    // PostsModule
   ],
   providers: [UsersResolver, PostsService],
   exports: [UsersResolver]

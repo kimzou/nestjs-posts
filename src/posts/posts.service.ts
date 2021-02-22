@@ -19,20 +19,17 @@ export class PostsService {
   //   const post = await this.postModel.findOne({...filters})
   // }
 
-  async findById(id: string): Promise<PostModel> {
+  async findById(id: string): Promise<PostModel|null> {
     const post = await this.postModel.findById(id);
     console.log({post})
     return post;
   }
 
   async forAuthor(id: string): Promise<PostModel[]> {
-    // const author = await this.usersService.findById(userId);
     console.log('post service for author', {id})
     const posts = await this.postModel.find({ authorId: id })
     console.log('post service for author', {posts})
     // console.log('user post', user.posts)
-    // return user.posts;
-
     return posts;
   }
 }
