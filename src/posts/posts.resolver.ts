@@ -9,10 +9,6 @@ import { PostsService } from './posts.service';
 export class PostsResolver {
   constructor(private readonly postsService: PostsService) { }
 
-  // @Query((returns) => Post)
-  // findPost(@Args('id') id: number): Post {
-  //   return this.postsService.findOne(id);
-  // }
   // TODO: add user decorator to access current user
   @Mutation(returns => Post)
   addPost(
@@ -31,17 +27,16 @@ export class PostsResolver {
   getPosts(): Promise<PostModel[]> {
     return this.postsService.all();
   }
-
+  // resolve the user of a post
   @ResolveField((of) => User)
   user(@Parent() post: Post): any {
     return { __typename: 'User', id: post.authorId };
   }
-
+  // fetch post from another service
   @ResolveReference()
   resolveReference(reference: { __typename: string, id: string, authorId: string }): Promise<PostModel> {
-    console.log('######### reference', reference)
     if (reference.id === undefined) throw new Error('Post not found')
-    const { id, authorId } = reference;
+    const { id } = reference;
     return this.postsService.findById(id);
   }
 }

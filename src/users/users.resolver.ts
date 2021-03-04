@@ -7,10 +7,9 @@ import { User } from './user.entity';
 @Resolver((of) => User)
 export class UsersResolver {
   constructor(private readonly postsService: PostsService) { }
-
+  // fetch all posts from the parent user
   @ResolveField((of) => [Post])
   public posts(@Parent() user: User): Promise<PostModel[]> {
-    console.log('user resolver for author', {user})
     const { id } = user;
     return this.postsService.forAuthor(id);
   }

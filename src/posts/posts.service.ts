@@ -22,17 +22,11 @@ export class PostsService {
 
   async all(): Promise<PostModel[]> {
     const posts = await this.postModel.find();
-    console.log('all', {posts})
     return posts;
   }
 
-  // async findOne(id: number): Promise<PostModel> {
-  //   const post = await this.postModel.findOne({...filters})
-  // }
-
   async findById(id: string): Promise<PostModel|null> {
     const post = await this.postModel.findById(id);
-    console.log('findById', {post})
     return post;
   }
 
@@ -42,7 +36,6 @@ export class PostsService {
   // return all posts for an user id
   async forAuthor(id: string): Promise<PostModel[]> {
     const posts = await this.postModel.find({ authorId: id })
-    console.log('post service for author', {posts})
     return posts;
   }
 }
