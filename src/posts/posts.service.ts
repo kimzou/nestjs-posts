@@ -9,9 +9,20 @@ export class PostsService {
     @InjectModel(PostModel.name) private postModel: Model<PostDocument>,
   ) {}
 
+  //TODO: get author id from user decorator
+  async create({ createPostInput, authorId }): Promise<PostModel> {
+    const { title } = createPostInput
+    const postProp = {
+      authorId,
+      title
+    }
+    const newPost = new this.postModel(postProp)
+    return await newPost.save()
+  }
+
   async all(): Promise<PostModel[]> {
     const posts = await this.postModel.find();
-    console.log({posts})
+    console.log('all', {posts})
     return posts;
   }
 
@@ -21,15 +32,17 @@ export class PostsService {
 
   async findById(id: string): Promise<PostModel|null> {
     const post = await this.postModel.findById(id);
-    console.log({post})
+    console.log('findById', {post})
     return post;
   }
 
+  async find(id: string): Promise<PostModel[]> {
+    return await this.postModel.find({ _id : id })
+  }
+  // return all posts for an user id
   async forAuthor(id: string): Promise<PostModel[]> {
-    console.log('post service for author', {id})
     const posts = await this.postModel.find({ authorId: id })
     console.log('post service for author', {posts})
-    // console.log('user post', user.posts)
     return posts;
   }
 }

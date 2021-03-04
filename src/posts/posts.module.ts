@@ -9,6 +9,6 @@ import { PostsService } from './posts.service';
     MongooseModule.forFeature([{ name: Post.name, schema: PostSchema }]),
   ],
   providers: [PostsResolver, PostsService],
-  exports: [PostsService, PostsResolver]
+  exports: [PostsService]
 })
 export class PostsModule {}

@@ -10,6 +10,10 @@ import { UsersModule } from './users/users.module';
     MongooseModule.forRoot('mongodb://localhost/nest'),
     GraphQLFederationModule.forRoot({
       autoSchemaFile: 'schema.graphql',
+      cors: {
+        credentials: true,
+        origin: 'http://localhost:3000'
+      },
       buildSchemaOptions: {
         numberScalarMode: 'integer',
         orphanedTypes: [User],
